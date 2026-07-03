@@ -1,0 +1,6 @@
+{
+  "name": "freya-astro-backend",
+  "version": "1.0.0",
+  "description": "Secure backend for FREYASTYLE aura quiz - calls astrologyapi.com without exposing API key",
+  "private": true
+}
