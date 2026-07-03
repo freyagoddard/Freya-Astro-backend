@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/get-chart", "destination": "/api/get-chart" }
+  ],
+  "outputDirectory": "public"
+}
