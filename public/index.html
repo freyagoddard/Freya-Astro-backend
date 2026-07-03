@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discover Your Aura — FREYASTYLE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap');
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #c9b4a8 !important;
+    color: #f2f0ea;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .top-bar {
+    border-bottom: 1px solid #e1ccbd;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c9b4a8;
+  }
+  .top-bar a {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: 0.25em;
+    color: #f2f0ea;
+    text-decoration: none;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 64px 24px 100px;
+    background-color: #c9b4a8;
+  }
+
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 56px;
+    border-bottom: 1px solid #e1ccbd;
+    padding-bottom: 40px;
+  }
+  .quiz-header .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.6);
+    margin-bottom: 18px;
+  }
+  .quiz-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(36px, 6vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: #f2f0ea;
+  }
+  .quiz-header h1 em { font-style: italic; }
+  .quiz-header p {
+    font-size: 13px;
+    color: rgba(242,240,234,0.65);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.6);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .form-block {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e1ccbd;
+  }
+  .form-block:last-of-type { border-bottom: none; }
+
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.8);
+    margin-bottom: 8px;
+  }
+  .field input, .field select {
+    width: 100%;
+    background: rgba(242,240,234,0.12);
+    border: 1px solid #e1ccbd;
+    border-radius: 10px;
+    color: #f2f0ea;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field input::placeholder { color: rgba(242,240,234,0.45); }
+  .field input:focus, .field select:focus {
+    border-color: #f2f0ea;
+    background: rgba(242,240,234,0.18);
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23f2f0ea'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-color: rgba(242,240,234,0.12);
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .field select option { background: #c9b4a8; color: #f2f0ea; }
+  .field .hint {
+    font-size: 13px;
+    color: rgba(242,240,234,0.8);
+    margin-top: 6px;
+    letter-spacing: 0.03em;
+  }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  
+  /* Force reset on all quiz elements to prevent Shopify theme interference */
+  #freya-quiz * { box-sizing: border-box; }
+  #freya-quiz .field { display: block; width: 100%; margin-bottom: 20px; }
+  #freya-quiz .field label { display: block; width: 100%; float: none; }
+  #freya-quiz .field input, #freya-quiz .field select { display: block; width: 100%; float: none; }
+  #freya-quiz .field .hint { display: block; width: 100%; float: none; clear: both; }
+  #freya-quiz .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  #freya-quiz .container { max-width: 600px; margin: 0 auto; padding: 40px 20px 80px; background-color: #c9b4a8; }
+  #freya-quiz p, #freya-quiz h1, #freya-quiz h2, #freya-quiz div { margin-top: 0; }
+
+  .system-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .system-btn {
+    background: rgba(242,240,234,0.1);
+    border: 1px solid #e1ccbd;
+    border-radius: 10px;
+    color: rgba(242,240,234,0.6);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .system-btn.active {
+    background: #f2f0ea;
+    border-color: #f2f0ea;
+    color: #c9b4a8;
+  }
+  .system-desc {
+    font-size: 12px;
+    color: rgba(242,240,234,0.65);
+    line-height: 1.7;
+    padding: 14px 16px;
+    background: rgba(242,240,234,0.1);
+    border: 1px solid #e1ccbd;
+    border-radius: 10px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: #f2f0ea;
+    border: 1px solid #f2f0ea;
+    border-radius: 16px;
+    color: #c9b4a8;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 8px;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: #f2f0ea;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #e1ccbd;
+    border-radius: 10px;
+    color: rgba(242,240,234,0.8);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: #f2f0ea; color: #f2f0ea; }
+
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .loading { text-align: center; padding: 80px 0; }
+  .loader-ring {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #e1ccbd;
+    border-top-color: #f2f0ea;
+    border-radius: 50%;
+    margin: 0 auto 28px;
+    animation: spin 1.2s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(242,240,234,0.6);
+    text-transform: uppercase;
+  }
+
+  .results-intro {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e1ccbd;
+  }
+  .results-intro .system-tag {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.6);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .results-intro h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: #f2f0ea;
+  }
+
+  .sign-trio {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .sign-card {
+    padding: 28px 16px;
+    text-align: center;
+    border: 1px solid #e1ccbd;
+    border-radius: 16px;
+    background: rgba(242,240,234,0.1);
+  }
+  .sign-card.rising-card {
+    background: rgba(242,240,234,0.2);
+    border-color: #f2f0ea;
+  }
+  .sign-card .planet-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.6);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .sign-card .sign-glyph {
+    font-size: 24px;
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
+    color: #f2f0ea;
+  }
+  .sign-card .sign-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+    color: #f2f0ea;
+  }
+  .sign-card .sign-dates {
+    font-size: 9px;
+    color: rgba(242,240,234,0.55);
+    letter-spacing: 0.05em;
+  }
+
+  .aura-insight {
+    border-left: 2px solid #e1ccbd;
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.65;
+    color: #f2f0ea;
+  }
+
+  .sidereal-nudge {
+    background: rgba(242,240,234,0.1);
+    border: 1px solid #e1ccbd;
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .sidereal-nudge p {
+    color: rgba(242,240,234,0.8);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  .cta-block {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid #e1ccbd;
+  }
+  .cta-block .cta-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(242,240,234,0.6);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .cta-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    color: #f2f0ea;
+  }
+  .cta-links { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .cta-link-primary {
+    display: inline-block;
+    background: #f2f0ea;
+    color: #c9b4a8;
+    border-radius: 16px;
+    border: 1px solid #f2f0ea;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    text-decoration: none;
+    transition: all 0.25s;
+    min-width: 260px;
+    text-align: center;
+  }
+  .cta-link-primary:hover { background: transparent; color: #f2f0ea; }
+  .cta-link-secondary {
+    display: inline-block;
+    color: rgba(242,240,234,0.65);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid #e1ccbd;
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+  .cta-link-secondary:hover { color: #f2f0ea; border-color: #f2f0ea; }
+
+  .error-msg {
+    color: #f2c4b0;
+    font-size: 11px;
+    margin-top: 8px;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 480px) {
+    .row-2 { grid-template-columns: 1fr; }
+    .sign-trio { grid-template-columns: 1fr; gap: 10px; }
+    .container { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="freya-quiz">
+<div class="container">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step-1">
+    <header class="quiz-header">
+      <h1>Discover<br><em>Your Chart</em></h1>
+      <p>Your sun. Your moon. Your rising.<br>The three layers of who you truly are.</p>
+    </header>
+
+    <div class="form-block">
+      <span class="section-label">Your birth details</span>
+      <div class="field">
+        <label>Date of Birth</label>
+        <input type="date" id="birthDate" />
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Time of Birth</label>
+          <input type="time" id="birthTime" />
+          <div class="hint">Required for your rising sign</div>
+        </div>
+        <div class="field" style="position:relative">
+          <label>Birth City</label>
+          <input type="text" id="birthCity" placeholder="Start typing your city..." autocomplete="off" oninput="onCityInput()" />
+          <div id="citySuggestions" style="display:none; position:absolute; top:100%; left:0; right:0; z-index:10; background:#c9b4a8; border:1px solid #e1ccbd; border-radius:10px; margin-top:6px; max-height:220px; overflow-y:auto;"></div>
+          <div class="hint">Used to calculate your exact rising sign</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <span class="section-label">Astrology system</span>
+      <div class="system-toggle">
+        <button class="system-btn active" id="btn-tropical" onclick="selectSystem('tropical')">Tropical</button>
+        <button class="system-btn" id="btn-sidereal" onclick="selectSystem('sidereal')">Sidereal</button>
+      </div>
+      <div class="system-desc" id="system-desc">
+        Tropical — based on the seasons. The system most people know. Start here; if the result feels off, switch to Sidereal after.
+      </div>
+    </div>
+
+    <div class="form-block">
+      <span class="section-label">Your details</span>
+      <div class="field">
+        <label>First Name</label>
+        <input type="text" id="firstName" placeholder="Your name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="your@email.com" />
+        <div class="hint">Your full reading will be sent here</div>
+      </div>
+      <div class="field" style="display:flex; align-items:flex-start; gap:10px; margin-top:-4px;">
+        <input type="checkbox" id="newsletterOptIn" style="width:auto; margin-top:3px; accent-color:#f2f0ea; cursor:pointer;" />
+        <label for="newsletterOptIn" style="text-transform:none; letter-spacing:0.02em; font-size:13px; color:rgba(242,240,234,0.85); cursor:pointer; font-weight:300;">Elevate your inbox — join the FREYASTYLE mailing list and become a complimentary member of Frequency No.17.</label>
+      </div>
+      <div id="formError" class="error-msg" style="display:none"></div>
+    </div>
+
+    <button class="btn-primary" onclick="calculateChart()">Reveal My Aura</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step-2">
+    <div class="loading">
+      <div class="loader-ring"></div>
+      <p id="loadingText">Reading the stars</p>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step-3">
+    <div class="results-intro">
+      <span class="system-tag" id="resultBadge">Tropical System</span>
+      <h2 id="resultHeading">Your Aura</h2>
+    </div>
+
+    <div class="sign-trio">
+      <div class="sign-card">
+        <span class="planet-label">Sun</span>
+        <span class="sign-glyph" id="sunGlyph">☉</span>
+        <span class="sign-name" id="sunSign">—</span>
+        <span class="sign-dates" id="sunDates"></span>
+      </div>
+      <div class="sign-card">
+        <span class="planet-label">Moon</span>
+        <span class="sign-glyph" id="moonGlyph">☽</span>
+        <span class="sign-name" id="moonSign">—</span>
+        <span class="sign-dates" id="moonDates"></span>
+      </div>
+      <div class="sign-card rising-card">
+        <span class="planet-label">Rising</span>
+        <span class="sign-glyph" id="risingGlyph">↑</span>
+        <span class="sign-name" id="risingSign">—</span>
+        <span class="sign-dates" id="risingDates"></span>
+      </div>
+    </div>
+
+    <div class="aura-insight" id="auraInsight"></div>
+
+    <div class="sidereal-nudge" id="siderealNudge">
+      <p id="nudgeText">Does this feel off? Some souls resonate more with the Sidereal system — it accounts for the shift in Earth's axis over millennia and sits roughly 23° earlier.</p>
+      <button class="btn-outline" id="switchBtn" onclick="switchSystem()">Try Sidereal Instead</button>
+    </div>
+
+    <div class="cta-block">
+      <span class="cta-label">Your next step</span>
+      <p id="ctaHeading">Dress your rising sign.<br>Elevate your aura.</p>
+      <div class="cta-links" id="ctaLinks"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TROPICAL = [
+  { name:'Capricorn',   glyph:'♑', dates:'Dec 22 – Jan 19', start:[12,22] },
+  { name:'Aquarius',    glyph:'♒', dates:'Jan 20 – Feb 18', start:[1,20]  },
+  { name:'Pisces',      glyph:'♓', dates:'Feb 19 – Mar 20', start:[2,19]  },
+  { name:'Aries',       glyph:'♈', dates:'Mar 21 – Apr 19', start:[3,21]  },
+  { name:'Taurus',      glyph:'♉', dates:'Apr 20 – May 20', start:[4,20]  },
+  { name:'Gemini',      glyph:'♊', dates:'May 21 – Jun 20', start:[5,21]  },
+  { name:'Cancer',      glyph:'♋', dates:'Jun 21 – Jul 22', start:[6,21]  },
+  { name:'Leo',         glyph:'♌', dates:'Jul 23 – Aug 22', start:[7,23]  },
+  { name:'Virgo',       glyph:'♍', dates:'Aug 23 – Sep 22', start:[8,23]  },
+  { name:'Libra',       glyph:'♎', dates:'Sep 23 – Oct 22', start:[9,23]  },
+  { name:'Scorpio',     glyph:'♏', dates:'Oct 23 – Nov 21', start:[10,23] },
+  { name:'Ophiuchus',   glyph:'⚕', dates:'Nov 22 – Dec 17', start:[11,22] },
+  { name:'Sagittarius', glyph:'♐', dates:'Dec 18 – Dec 21', start:[12,18] },
+];
+const SIDEREAL = [
+  { name:'Capricorn',   glyph:'♑', dates:'Jan 14 – Feb 12', start:[1,14]  },
+  { name:'Aquarius',    glyph:'♒', dates:'Feb 13 – Mar 14', start:[2,13]  },
+  { name:'Pisces',      glyph:'♓', dates:'Mar 15 – Apr 13', start:[3,15]  },
+  { name:'Aries',       glyph:'♈', dates:'Apr 14 – May 14', start:[4,14]  },
+  { name:'Taurus',      glyph:'♉', dates:'May 15 – Jun 14', start:[5,15]  },
+  { name:'Gemini',      glyph:'♊', dates:'Jun 15 – Jul 16', start:[6,15]  },
+  { name:'Cancer',      glyph:'♋', dates:'Jul 17 – Aug 16', start:[7,17]  },
+  { name:'Leo',         glyph:'♌', dates:'Aug 17 – Sep 16', start:[8,17]  },
+  { name:'Virgo',       glyph:'♍', dates:'Sep 17 – Oct 16', start:[9,17]  },
+  { name:'Libra',       glyph:'♎', dates:'Oct 17 – Nov 15', start:[10,17] },
+  { name:'Scorpio',     glyph:'♏', dates:'Nov 16 – Nov 28', start:[11,16] },
+  { name:'Ophiuchus',   glyph:'⚕', dates:'Nov 29 – Dec 17', start:[11,29] },
+  { name:'Sagittarius', glyph:'♐', dates:'Dec 18 – Jan 13', start:[12,18] },
+];
+const INSIGHTS = {
+  'Aries':       'Your aura radiates first-fire energy. You were made to lead, not follow — and your style should announce you before you speak.',
+  'Taurus':      'Your aura is grounded luxury — tactile, sensual, deeply present. You dress to be felt, not just seen.',
+  'Gemini':      'Your aura shifts and dazzles. You contain multitudes, and your style should honour every version of you.',
+  'Cancer':      'Your aura is soft armour — protective, intuitive, and quietly magnetic. You dress from feeling, not from trend.',
+  'Leo':         'Your aura commands rooms before you enter them. Restraint is a choice, never a limitation.',
+  'Virgo':       'Your aura is refined precision. Every detail is intentional — nothing in your world is accidental.',
+  'Libra':       'Your aura is living art — balanced, beautiful, and effortlessly harmonious. You elevate every space you inhabit.',
+  'Scorpio':     'Your aura is depth incarnate. Magnetic, transformative, impossible to look away from.',
+  'Ophiuchus':   'Your aura is the rarest frequency — the healer and transformer. You exist between worlds, and your style carries that mystery.',
+  'Sagittarius': 'Your aura expands every room. You dress for the journey you are always already on.',
+  'Capricorn':   'Your aura speaks authority before you open your mouth. You were born knowing how to occupy space.',
+  'Aquarius':    'Your aura disrupts quietly. You set the trends that others will claim they started.',
+  'Pisces':      'Your aura is ethereal — you do not inhabit a room, you haunt it beautifully.',
+};
+
+// City autocomplete powered by OpenStreetMap Nominatim (free, no API key required)
+let citySearchTimeout = null;
+let selectedCityData = null;
+
+function onCityInput() {
+  selectedCityData = null;
+  const input = document.getElementById('birthCity');
+  const query = input.value.trim();
+  const suggestionsBox = document.getElementById('citySuggestions');
+
+  if (citySearchTimeout) clearTimeout(citySearchTimeout);
+
+  if (query.length < 3) {
+    suggestionsBox.style.display = 'none';
+    suggestionsBox.innerHTML = '';
+    return;
+  }
+
+  citySearchTimeout = setTimeout(() => {
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&featuretype=city&addressdetails=1&limit=8`, {
+      headers: { 'Accept-Language': 'en' }
+    })
+      .then(res => res.json())
+      .then(results => {
+        if (!results || results.length === 0) {
+          suggestionsBox.style.display = 'none';
+          return;
+        }
+        suggestionsBox.innerHTML = '';
+        results.forEach(r => {
+          const addr = r.address || {};
+          const cityName = addr.city || addr.town || addr.village || addr.county || r.name || r.display_name.split(',')[0];
+          const region = addr.state || addr.country || '';
+          const label = region ? `${cityName}, ${region}` : cityName;
+
+          const item = document.createElement('div');
+          item.textContent = label;
+          item.style.cssText = 'padding:12px 14px; cursor:pointer; font-size:14px; color:#f2f0ea; border-bottom:1px solid rgba(225,204,189,0.3);';
+          item.onmouseenter = () => item.style.background = 'rgba(242,240,234,0.15)';
+          item.onmouseleave = () => item.style.background = 'transparent';
+          item.onclick = () => {
+            input.value = label;
+            selectedCityData = { lat: parseFloat(r.lat), lon: parseFloat(r.lon), name: label };
+            suggestionsBox.style.display = 'none';
+          };
+          suggestionsBox.appendChild(item);
+        });
+        suggestionsBox.style.display = 'block';
+      })
+      .catch(() => {
+        // Network unavailable (e.g. in offline preview) — fall back to manual entry
+        suggestionsBox.style.display = 'none';
+      });
+  }, 400);
+}
+
+// Close suggestions when clicking elsewhere
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#birthCity') && !e.target.closest('#citySuggestions')) {
+    document.getElementById('citySuggestions').style.display = 'none';
+  }
+});
+
+const BACKEND_URL = 'https://freya-astro-backend.vercel.app/api/get-chart';
+
+const GLYPHS = {
+  'Aries':'♈','Taurus':'♉','Gemini':'♊','Cancer':'♋','Leo':'♌','Virgo':'♍',
+  'Libra':'♎','Scorpio':'♏','Sagittarius':'♐','Capricorn':'♑','Aquarius':'♒','Pisces':'♓','Ophiuchus':'⚕'
+};
+
+function calculateChart() {
+  const date = document.getElementById('birthDate').value;
+  const time = document.getElementById('birthTime').value;
+  const cityText = document.getElementById('birthCity').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const name = document.getElementById('firstName').value.trim();
+  const err = document.getElementById('formError');
+
+  if (!date) { err.textContent = 'Please enter your date of birth.'; err.style.display='block'; return; }
+  if (!time) { err.textContent = 'Birth time is needed for your rising sign.'; err.style.display='block'; return; }
+  if (!cityText) { err.textContent = 'Please enter your birth city.'; err.style.display='block'; return; }
+  if (!email || !email.includes('@')) { err.textContent = 'Please enter a valid email.'; err.style.display='block'; return; }
+  err.style.display = 'none';
+
+  const newsletterOptIn = document.getElementById('newsletterOptIn').checked;
+  const city = (selectedCityData && selectedCityData.name === cityText)
+    ? selectedCityData
+    : { lat: 51.5, lon: -0.1, name: cityText };
+
+  const [y, m, d] = date.split('-').map(Number);
+  const [hr, mn] = time.split(':').map(Number);
+  chartData = { y, m, d, hour: hr, min: mn, city, name, email, newsletterOptIn };
+
+  showStep(2);
+  const msgs = ['Reading the stars', 'Mapping your cosmos', 'Calculating your rising', 'Revealing your aura'];
+  let i = 0;
+  const iv = setInterval(() => { document.getElementById('loadingText').textContent = msgs[i++ % msgs.length]; }, 750);
+
+  const tzOffset = -new Date().getTimezoneOffset() / 60;
+
+  fetch(BACKEND_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ day: d, month: m, year: y, hour: hr, min: mn, lat: city.lat, lon: city.lon, tzone: tzOffset, system: currentSystem })
+  })
+  .then(res => res.json())
+  .then(data => {
+    clearInterval(iv);
+    if (data.error) {
+      err.textContent = 'Something went wrong — please try again.';
+      err.style.display = 'block';
+      showStep(1);
+      return;
+    }
+    renderResults({
+      sun: { name: data.sun, glyph: GLYPHS[data.sun] || '✦', dates: '' },
+      moon: { name: data.moon, glyph: GLYPHS[data.moon] || '✦', dates: '' },
+      rising: { name: data.rising, glyph: GLYPHS[data.rising] || '✦', dates: '' },
+      sys: currentSystem
+    });
+    showStep(3);
+  })
+  .catch(() => {
+    clearInterval(iv);
+    err.textContent = 'Connection error — please try again.';
+    err.style.display = 'block';
+    showStep(1);
+  });
+}
+
+function renderResults({ sun, moon, rising, sys }) {
+  document.getElementById('resultBadge').textContent = sys === 'tropical' ? 'Tropical System' : 'Sidereal System';
+  document.getElementById('resultHeading').textContent = chartData.name ? `${chartData.name}'s Aura` : 'Your Aura';
+  document.getElementById('sunGlyph').textContent = sun.glyph;
+  document.getElementById('sunSign').textContent = sun.name;
+  document.getElementById('sunDates').textContent = sun.dates;
+  document.getElementById('moonGlyph').textContent = moon.glyph;
+  document.getElementById('moonSign').textContent = moon.name;
+  document.getElementById('moonDates').textContent = moon.dates;
+  document.getElementById('risingGlyph').textContent = rising.glyph;
+  document.getElementById('risingSign').textContent = rising.name;
+  document.getElementById('risingDates').textContent = rising.dates;
+  document.getElementById('auraInsight').textContent = INSIGHTS[rising.name] || INSIGHTS[sun.name] || '';
+  document.getElementById('nudgeText').textContent = sys === 'tropical'
+    ? "Does this feel off? Some souls resonate more with the Sidereal system — it accounts for the shift in Earth's axis over millennia and sits roughly 23° earlier."
+    : "You are viewing the Sidereal system. Want to compare with the Tropical system?";
+  document.getElementById('switchBtn').textContent = sys === 'tropical' ? 'Try Sidereal Instead' : 'Switch Back to Tropical';
+  document.getElementById('ctaHeading').innerHTML = `Dress your ${rising.name} rising.<br>Elevate your aura.`;
+  document.getElementById('ctaLinks').innerHTML = `
+    <a class="cta-link-primary" href="https://freyagoddard.com/collections/all" target="_blank">Shop Your Aura Guide</a>
+    <a class="cta-link-secondary" href="https://freyagoddard.com/products/become-a-member" target="_blank">Join Frequency No.17</a>
+  `;
+}
+
+function switchSystem() {
+  currentSystem = currentSystem === 'tropical' ? 'sidereal' : 'tropical';
+  showStep(2);
+  document.getElementById('loadingText').textContent = currentSystem === 'sidereal' ? 'Shifting perspectives' : 'Returning to the seasons';
+
+  const tzOffset = -new Date().getTimezoneOffset() / 60;
+  const { y, m, d, hour, min, city } = chartData;
+
+  fetch(BACKEND_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ day: d, month: m, year: y, hour, min, lat: city.lat, lon: city.lon, tzone: tzOffset, system: currentSystem })
+  })
+  .then(res => res.json())
+  .then(data => {
+    renderResults({
+      sun: { name: data.sun, glyph: GLYPHS[data.sun] || '✦', dates: '' },
+      moon: { name: data.moon, glyph: GLYPHS[data.moon] || '✦', dates: '' },
+      rising: { name: data.rising, glyph: GLYPHS[data.rising] || '✦', dates: '' },
+      sys: currentSystem
+    });
+    showStep(3);
+  })
+  .catch(() => showStep(3));
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</div>
+</body>
+</html>
